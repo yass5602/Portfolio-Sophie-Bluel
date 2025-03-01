@@ -1,5 +1,6 @@
 //Ceci est une fonction fetch pour l'API (works)
-async function getWorks() {
+async function getWorks(filter) {
+    document.querySelector(".gallery").innerHTML = "";
     const url = "http://localhost:5678/api/works";
     try {
       const response = await fetch(url);
@@ -7,25 +8,30 @@ async function getWorks() {
         throw new Error(`Response status: ${response.status}`);
       }
   
-      const json = await response.json();
-      for (let i = 0; i < json.length; i++) {
-        setdiv(json[i]);
+    const json = await response.json();
+      if(filter) {
+        const filtered = json.filter((data) => data.categoryId === filter);
+        for (let i = 0; i < filtered.length; i++) {
+        setFigure(filtered[i]);
       }
+    } else {
+        for (let i = 0; i < json.length; i++) {
+        setFigure(json[i]);
+      }
+    }
     } catch (error) {
       console.error(error.message);
     }
 }
-
 getWorks();
 
-
 //Envoi des images vers la div class gallery
-function setdiv(data) {
-    const div = document.createElement("div");
-    div.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
+function setFigure(data) {
+    const figure = document.createElement("figure");
+    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
                         <figcaption>${data.title}</figcaption>`;
 
-    document.querySelector(".gallery").append(div);
+    document.querySelector(".gallery").append(figure);
 }
 
 
@@ -49,9 +55,15 @@ async function getCategories() {
 }
 getCategories();
 
-//Création de bouton de filtres dans la div-container (pas encore interactif)
+//Création de bouton de filtres dans la div-container
 function setFilter(data) {
+    console.log(data);
     const div = document.createElement("div");
+    div.className = data.id;
+    div.addEventListener("click", () => getWorks(data.id));
+
     div.innerHTML = `${data.name}`;
     document.querySelector(".div-container").append(div);
 } 
+//Active le bouton "TOUS" dans la barre de filtres
+document.querySelector(".tous").addEventListener("click", () => getWorks());
