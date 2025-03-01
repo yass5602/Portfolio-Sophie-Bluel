@@ -1,3 +1,4 @@
+//Ceci est une fonction fetch pour l'API (works)
 async function getWorks() {
     const url = "http://localhost:5678/api/works";
     try {
@@ -17,6 +18,8 @@ async function getWorks() {
 
 getWorks();
 
+
+//Envoi des images vers la div class gallery
 function setdiv(data) {
     const div = document.createElement("div");
     div.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
@@ -25,6 +28,8 @@ function setdiv(data) {
     document.querySelector(".gallery").append(div);
 }
 
+
+//Ceci est une fonction fetch pour l'API (categories = Filtres)
 async function getCategories() {
     const url = "http://localhost:5678/api/categories";
     try {
@@ -44,6 +49,7 @@ async function getCategories() {
 }
 getCategories();
 
+//Création de bouton de filtres dans la div-container (pas encore interactif)
 function setFilter(data) {
     const div = document.createElement("div");
     div.innerHTML = `${data.name}`;
