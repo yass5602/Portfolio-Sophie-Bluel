@@ -20,9 +20,15 @@ async function handleSubmit(event) {
         },
         body: JSON.stringify(user)
     });
-  
+    console.log(response);
+    if (response.status != 200) {
+        const errorBox = document.createElement("div");
+        errorBox.className = "error-login";
+        errorBox.innerHTML = "Il y a eu une erreur";
+        document.querySelector('form').prepend(errorBox);
+    }
     let result = await response.json();
-    console.log(result);
-    console.log('E-mail:', email);
-    console.log('Mot de passe:', password);
+    const token = result.token;
+    sessionStorage.setItem("authToken", token);
+    window.location.href = "index.html";
 }
