@@ -24,11 +24,13 @@ async function handleSubmit(event) {
     if (response.status != 200) {
         const errorBox = document.createElement("div");
         errorBox.className = "error-login";
-        errorBox.innerHTML = "Il y a eu une erreur";
+        errorBox.innerHTML = "Adresse mail ou mot de passe invalides";
         document.querySelector('form').prepend(errorBox);
     }
+    else {
     let result = await response.json();
     const token = result.token;
     sessionStorage.setItem("authToken", token);
     window.location.href = "index.html";
+    }
 }
