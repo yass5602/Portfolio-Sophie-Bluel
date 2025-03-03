@@ -57,7 +57,6 @@ getCategories();
 
 //Création de bouton de filtres dans la div-container
 function setFilter(data) {
-    console.log(data);
     const div = document.createElement("div");
     div.className = data.id;
     div.addEventListener("click", () => getWorks(data.id));
@@ -67,3 +66,14 @@ function setFilter(data) {
 } 
 //Active le bouton "TOUS" dans la barre de filtres
 document.querySelector(".tous").addEventListener("click", () => getWorks());
+
+function displayAdminMode() {
+  if (sessionStorage.authToken) {
+    console.log("ok");
+    const editBanner = document.createElement('div');
+    editBanner.className = "edit";
+    editBanner.innerHTML = '<p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>';
+    document.body.prepend(editBanner);
+  }
+}
+displayAdminMode();
