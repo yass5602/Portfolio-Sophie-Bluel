@@ -69,11 +69,63 @@ document.querySelector(".tous").addEventListener("click", () => getWorks());
 
 function displayAdminMode() {
   if (sessionStorage.authToken) {
-    console.log("ok");
     const editBanner = document.createElement('div');
     editBanner.className = "edit";
-    editBanner.innerHTML = '<p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>';
+    editBanner.innerHTML = '<p><a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a></p>';
     document.body.prepend(editBanner);
   }
 }
 displayAdminMode();
+
+let modal = null;
+const focusableSelector = "button, a, input, textarea"
+let focusables = []
+
+const openModal = function (e) {
+  e.preventDefault();
+  const modal = document.querySelector(e.target.getAttribute("href"));
+  focusables = Array.from(modal.querySelectorAll(focusableSelector));
+  modal.style.display = null;
+  modal.removeAttribute("aria-hidden");
+  modal.setAttribute("aria-modal", "true");
+  modal.addEventListener("click", closeModal);
+  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
+  modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
+};
+
+const closeModal = function (e) {
+  if (modal === null) return;
+  e.preventDefault();
+  modal.style.display ="none";
+  modal.setAttribute("aria-hidden", "true");
+  modal.removeAttribute("aria-modal");
+  modal.removeEventListener("click", closeModal);
+  modal
+  .querySelector(".js-modal-close")
+  .removeEventListener("click", closeModal);
+  modal
+  .querySelector(".js-modal-stop")
+  .removeEventListener("click", stopPropagation);  
+  modal = null;
+};
+const stopPropagation = function (e) {
+  e.stopPropagation();
+};
+
+const focusInModal = function(e) {
+  e.preventDefault();
+  console.log(focusables);
+};
+
+window.addEventListener("keydown", function(e) {
+  if (e.key === "Escape" || e.key === "Esc") {
+    closeModal(e);
+  }
+  if (e.key === "Tab" && modal !== null) {
+    focusInModal(e);
+  }
+});
+
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener('click', openModal);  
+});
