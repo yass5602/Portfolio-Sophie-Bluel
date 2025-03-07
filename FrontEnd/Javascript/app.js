@@ -83,14 +83,16 @@ let focusables = []
 
 const openModal = function (e) {
   e.preventDefault();
-  const modal = document.querySelector(e.target.getAttribute("href"));
+  modal = document.querySelector(e.target.getAttribute("href"));
   focusables = Array.from(modal.querySelectorAll(focusableSelector));
+  focusables[0].focus();
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
   modal.setAttribute("aria-modal", "true");
-  modal.addEventListener("click", closeModal);
   modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
-  modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
+  modal
+  .querySelector(".js-modal-stop")
+  .addEventListener("click", stopPropagation);
 };
 
 const closeModal = function (e) {
@@ -108,13 +110,27 @@ const closeModal = function (e) {
   .removeEventListener("click", stopPropagation);  
   modal = null;
 };
+
 const stopPropagation = function (e) {
   e.stopPropagation();
 };
 
 const focusInModal = function(e) {
   e.preventDefault();
-  console.log(focusables);
+  let index = focusables.findIndex((f) => f === modal.querySelector(":focus"));
+  if (e.shiftKey === true) {
+    index--;
+  }
+  else {
+    index++;
+  }
+  if (index >= focusables.length) {
+    index = 0;
+  }
+  if (index < 0) {
+    index = focusables.length - 1;
+  }
+  focusables[index].focus();
 };
 
 window.addEventListener("keydown", function(e) {
