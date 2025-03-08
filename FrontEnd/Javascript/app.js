@@ -13,10 +13,12 @@ async function getWorks(filter) {
         const filtered = json.filter((data) => data.categoryId === filter);
         for (let i = 0; i < filtered.length; i++) {
         setFigure(filtered[i]);
+        setModalFigure(filtered[i]);
       }
     } else {
         for (let i = 0; i < json.length; i++) {
         setFigure(json[i]);
+        setModalFigure(json[i]);
       }
     }
     } catch (error) {
@@ -33,7 +35,13 @@ function setFigure(data) {
 
     document.querySelector(".gallery").append(figure);
 }
+function setModalFigure(data) {
+  const figure = document.createElement("figure");
+  figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
+                      <figcaption>${data.title}</figcaption>`;
 
+  document.querySelector(".gallery-modal").append(figure);
+}
 
 //Ceci est une fonction fetch pour l'API (categories = Filtres)
 async function getCategories() {
@@ -73,6 +81,9 @@ function displayAdminMode() {
     editBanner.className = "edit";
     editBanner.innerHTML = '<p><a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a></p>';
     document.body.prepend(editBanner);
+
+    const login = document.querySelector(".login a");
+    login.textContent = "logout";
   }
 }
 displayAdminMode();
