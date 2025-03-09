@@ -21,6 +21,11 @@ async function getWorks(filter) {
         setModalFigure(json[i]);
       }
     }
+    //Delete
+    const trashCans = document.querySelectorAll(".fa-trash-can");
+    trashCans.forEach((e) =>
+      e.addEventListener("click", (event) => deleteWork(event))
+    );
     } catch (error) {
       console.error(error.message);
     }
@@ -53,7 +58,6 @@ async function getCategories() {
       }
   
       const json = await response.json();
-      console.log(json);
       for (let i = 0; i < json.length; i++) {
         setFilter(json[i]);
       } 
@@ -79,7 +83,8 @@ function displayAdminMode() {
   if (sessionStorage.authToken) {
     const editBanner = document.createElement('div');
     editBanner.className = "edit";
-    editBanner.innerHTML = '<p><a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a></p>';
+    editBanner.innerHTML = 
+    '<p><a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a></p>';
     document.body.prepend(editBanner);
 
     const login = document.querySelector(".login a");
@@ -100,7 +105,10 @@ const openModal = function (e) {
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
   modal.setAttribute("aria-modal", "true");
-  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
+  modal.addEventListener("click", closeModal);
+  modal
+    .querySelectorAll(".js-modal-close")
+    .forEach((e) => e.addEventListener("click", closeModal));
   modal
   .querySelector(".js-modal-stop")
   .addEventListener("click", stopPropagation);
@@ -156,3 +164,27 @@ window.addEventListener("keydown", function(e) {
 document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener('click', openModal);  
 });
+
+//Delete Function
+
+async function deleteWork(event) {
+  event.stopPropagation();
+  const id = event.srcElement.id;
+  const deleteApi = "http://localhost:5678/api/works/1";
+  const token = sessionStorage.authToken;
+  let response = await fetch(deleteApi + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  if (response.status == 401 || response.status == 500) {
+    const errorBox = document.createElement("div");
+    errorBox.className ="error-login";
+    errorBox.innerHTML = "Il y a eu une erreur";
+    document.querySelector(".modal-button-container").prepend(errorBox);
+  } else {
+    let result = await response.json();
+    console.log(result);
+  }
+}

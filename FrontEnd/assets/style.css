@@ -178,8 +178,8 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
+
 .gallery-modal {
 	width: 100%;
 	display: grid;
@@ -286,12 +286,14 @@ footer nav ul {
 }
 .modal-wrapper{
 	overflow: auto;
-	width: 600px;
+	width: 630px;
+	height: 688px;
 	background-color: white;
 	max-width: calc(100vh - 20px);
 	max-height: calc(100vh - 20px);
 	padding: 20px;
 	margin: 100px;
+	border-radius: 10px;
 }
 .close-button-container {
 	display: flex;
