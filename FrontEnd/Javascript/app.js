@@ -1,6 +1,8 @@
 //Ceci est une fonction fetch pour l'API (works)
 async function getWorks(filter) {
     document.querySelector(".gallery").innerHTML = "";
+    document.querySelector(".modal-gallery").innerHTML = "";
+
     const url = "http://localhost:5678/api/works";
     try {
       const response = await fetch(url);
@@ -84,7 +86,6 @@ document.querySelector(".tous").addEventListener("click", () => getWorks());
 
 function displayAdminMode() {
   if (sessionStorage.authToken) {
-    document.querySelector(".div-container").style.display = "none";
     document.querySelector(".js-modal-2").style.display = "block";
     document.querySelector(".gallery").style.margin = "30px 0 0 0";
     const editBanner = document.createElement('div');
@@ -175,22 +176,39 @@ document.querySelectorAll(".js-modal").forEach((a) => {
 async function deleteWork(event) {
   event.stopPropagation();
   const id = event.srcElement.id;
-  const deleteApi = "http://localhost:5678/api/works/";
+  const deleteApi = `http://localhost:5678/api/works/${id}`;
   const token = sessionStorage.authToken;
-  let response = await fetch(deleteApi + id, {
-    method: "DELETE",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
-  if (response.status == 401 || response.status == 500) {
+
+  try {
+    const response = await fetch(deleteApi, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la suppression (status: ${response.status})`);
+    }
+    // Mise à jour de la galerie après suppression dans l'API
+    await getWorks();  // Rafraîchit les données directement depuis l'API pour assurer la cohérence
+    // Suppression dynamique des éléments du DOM
+    document
+      .querySelector(`.gallery figure img[src$="${id}"]`)
+      ?.closest("figure")
+      .remove();
+
+    document
+      .querySelector(`.modal-gallery .overlay-icon[id="${id}"]`)
+      ?.closest("figure")
+      .remove();
+
+  } catch (error) {
+    console.error(error.message);
     const errorBox = document.createElement("div");
-    errorBox.className ="error-login";
-    errorBox.innerHTML = "Il y a eu une erreur";
+    errorBox.className = "error-login";
+    errorBox.innerHTML = "Erreur lors de la suppression. Veuillez réessayer.";
     document.querySelector(".modal-button-container").prepend(errorBox);
-  } else {
-    let result = await response.json();
-    console.log(result);
   }
 }
 
@@ -284,19 +302,43 @@ addPictureForm.addEventListener("submit", async (event) => {
       },
       body: formData,
     });
-    if (response.status !== 200) {
-      const errorText = await response.text();
-      console.error("Erreur : ", errorText);
-      const errorBox = document.createElement("div");
-      errorBox.className = "error-login";
-      errorBox.innerHTML = `Il y a eu une erreur : ${errorText}`;
-      document.querySelector("form").prepend(errorBox);
-    } else {
-      let result = await response.json();
-      console.log(result);
-    }
-    console.log("hasImage and titleValue is true");
-  } else {
-    alert("Veuillez remplir tous les champs");
-  }
-});
+
+if (response.status === 201) { 
+  let result = await response.json();
+  console.log("Succès :", result);
+
+   // Mise à jour de la galerie avec les données actualisées de l'API
+   await getWorks();
+
+  // Ajout dynamique à la galerie
+  const newFigure = document.createElement("figure");
+  newFigure.innerHTML = `
+    <img src="${result.imageUrl}" alt="${result.title}">
+    <figcaption>${result.title}</figcaption>
+  `;
+  document.querySelector(".gallery").appendChild(newFigure);
+
+  // Ajout dynamique à la modale
+  const newFigureModal = document.createElement("figure");
+  newFigureModal.innerHTML = `
+    <div class="image-container">
+      <img src="${result.imageUrl}" alt="${result.title}">
+      <figcaption>${result.title}</figcaption>
+      <i id="${result.id}" class="fa-solid fa-trash-can overlay-icon"></i>
+    </div>
+  `;
+  document.querySelector(".modal-gallery").appendChild(newFigureModal);
+
+  // Message de confirmation
+  alert("Votre image a bien été ajoutée !");
+
+  // Réinitialisation du formulaire
+  document.getElementById("picture-form").reset();
+  document.getElementById("photo-container").innerHTML = ""; // Supprime l’aperçu de l’image
+}
+}});
+
+addPictureForm();
+
+
+
