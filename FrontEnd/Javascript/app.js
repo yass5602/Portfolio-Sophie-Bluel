@@ -108,7 +108,6 @@ const openModal = function (e) {
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
   modal.setAttribute("aria-modal", "true");
-  modal.addEventListener("click", closeModal);
   modal
     .querySelectorAll(".js-modal-close")
     .forEach((e) => e.addEventListener("click", closeModal));

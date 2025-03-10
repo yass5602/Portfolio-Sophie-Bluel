@@ -24,7 +24,7 @@ async function handleSubmit(event) {
     if (response.status != 200) {
         const errorBox = document.createElement("div");
         errorBox.className = "error-login";
-        errorBox.innerHTML = "Adresse mail ou mot de passe invalides";
+        errorBox.innerHTML = "Adresse mail ou mot de passe invalide";
         document.querySelector('form').prepend(errorBox);
     }
     else {
