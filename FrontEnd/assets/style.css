@@ -207,13 +207,13 @@ li:hover {
 	margin-bottom: 0;
 }
 
-.projets-container {
+.projet-container {
     display: flex;
     justify-content: center; /* Pour aligner verticalement les éléments */
     gap: 10px; /* Pour ajouter un espace entre les éléments, si nécessaire */
 }
 
-.projets-container p {
+.projet-container p {
 	cursor: pointer;
 }
 
@@ -336,6 +336,7 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 
 footer nav ul {
