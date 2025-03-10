@@ -213,18 +213,22 @@ li:hover {
     gap: 10px; /* Pour ajouter un espace entre les éléments, si nécessaire */
 }
 
-
+.projets-container p {
+	cursor: pointer;
+}
 
 
 .js-modal-close {
     border: none;
     background-color: white;
     font-size: 18px;
+	cursor: pointer;
 }
 .js-modal-back {
 	border: none;
     background-color: white;
     font-size: 18px;
+	cursor: pointer;
 }
 .modal-wrapper h3 {
     font-size: 18px;
