@@ -42,10 +42,13 @@ function setFigure(data) {
 }
 function setModalFigure(data) {
   const figure = document.createElement("figure");
-  figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
-                      <figcaption>${data.title}</figcaption>`;
+  figure.innerHTML = `<div class ="image-container">
+                        <img src=${data.imageUrl} alt=${data.title}>
+                        <figcaption>${data.title}</figcaption>
+                        <i id =${data.id} class="fa-solid fa-trash-can overlay-icon"></i>
+                        </div>`;
 
-  document.querySelector(".gallery-modal").append(figure);
+  document.querySelector(".modal-gallery").append(figure);
 }
 
 //Ceci est une fonction fetch pour l'API (categories = Filtres)
@@ -170,7 +173,7 @@ document.querySelectorAll(".js-modal").forEach((a) => {
 async function deleteWork(event) {
   event.stopPropagation();
   const id = event.srcElement.id;
-  const deleteApi = "http://localhost:5678/api/works/1";
+  const deleteApi = "http://localhost:5678/api/works/";
   const token = sessionStorage.authToken;
   let response = await fetch(deleteApi + id, {
     method: "DELETE",
@@ -188,3 +191,110 @@ async function deleteWork(event) {
     console.log(result);
   }
 }
+
+//Toggle function
+const addPhotoButton = document.querySelector(".add-photo-button");
+const backButton = document.querySelector(".js-modal-back");
+
+addPhotoButton.addEventListener("click", toggleModal);
+backButton.addEventListener("click", toggleModal);
+
+function toggleModal() {
+  const galleryModal = document.querySelector(".gallery-modal");
+  const addModal = document.querySelector(".add-modal");
+
+  if (
+    galleryModal.style.display === "block" ||
+    galleryModal.style.display === ""
+  ) {
+    galleryModal.style.display = "none";
+    addModal.style.display = "block";
+  } else {
+    galleryModal.style.display = "block";
+    addModal.style.display = "none";
+  }
+}
+
+//Add photo input
+let img = document.createElement("img");
+let file;
+
+document.querySelector("#file").style.display = "none";
+document.getElementById("file").addEventListener("change", function (event) {
+  file =event.target.files[0]; // Assigner le fichier à une variable globale
+  if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      img.src = e.target.result;
+      img.alt = "Uploaded Photo";
+      document.getElementById("photo-container").appendChild(img);
+    };
+    reader.readAsDataURL(file);
+    document
+      .querySelectorAll(".picture-loaded")
+      .forEach((e) => (e.style.display = "none"));
+  } else {
+    alert("Séléctionnez une image au format JPG ou PNG");
+  }
+});
+
+//Handle picture submit
+
+const titleInput = document.getElementById("title");
+let titleValue = "";
+
+let selectedValue = "1";
+
+document.getElementById("category").addEventListener("change", function() {
+  selectedValue = this.value;
+});
+
+titleInput.addEventListener("input", function () {
+  titleValue = titleInput.value;
+  console.log("Titre actuel :", titleValue);
+});
+
+const addPictureForm = document.getElementById("picture-form");
+
+addPictureForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const hasImage = document.querySelector("#photo-container").firstChild;
+  if (hasImage && titleValue) {
+    //Création nouvel objet FormData
+    const formData = new FormData();
+
+    //Ajout du fichier au FormData
+    formData.append("image", file);
+    formData.append("title", titleValue);
+    formData.append("category", selectedValue);
+
+    const token = sessionStorage.authToken;
+
+    if(!token) {
+      console.error("Token d'authentification manquant");
+      return;
+    }
+
+    let response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: formData,
+    });
+    if (response.status !== 200) {
+      const errorText = await response.text();
+      console.error("Erreur : ", errorText);
+      const errorBox = document.createElement("div");
+      errorBox.className = "error-login";
+      errorBox.innerHTML = `Il y a eu une erreur : ${errorText}`;
+      document.querySelector("form").prepend(errorBox);
+    } else {
+      let result = await response.json();
+      console.log(result);
+    }
+    console.log("hasImage and titleValue is true");
+  } else {
+    alert("Veuillez remplir tous les champs");
+  }
+});
