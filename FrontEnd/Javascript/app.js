@@ -13,16 +13,19 @@ async function getWorks(filter) {
     const json = await response.json();
       if(filter) {
         const filtered = json.filter((data) => data.categoryId === filter);
+        console.log(filtered);
         for (let i = 0; i < filtered.length; i++) {
         setFigure(filtered[i]);
         setModalFigure(filtered[i]);
       }
     } else {
+      console.log(json);
         for (let i = 0; i < json.length; i++) {
         setFigure(json[i]);
         setModalFigure(json[i]);
       }
     }
+    
     //Delete
     const trashCans = document.querySelectorAll(".fa-trash-can");
     trashCans.forEach((e) =>
@@ -190,8 +193,10 @@ async function deleteWork(event) {
     if (!response.ok) {
       throw new Error(`Erreur lors de la suppression (status: ${response.status})`);
     }
+
     // Mise à jour de la galerie après suppression dans l'API
     await getWorks();  // Rafraîchit les données directement depuis l'API pour assurer la cohérence
+    
     // Suppression dynamique des éléments du DOM
     document
       .querySelector(`.gallery figure img[src$="${id}"]`)
@@ -308,26 +313,7 @@ if (response.status === 201) {
   console.log("Succès :", result);
 
    // Mise à jour de la galerie avec les données actualisées de l'API
-   await getWorks();
-
-  // Ajout dynamique à la galerie
-  const newFigure = document.createElement("figure");
-  newFigure.innerHTML = `
-    <img src="${result.imageUrl}" alt="${result.title}">
-    <figcaption>${result.title}</figcaption>
-  `;
-  document.querySelector(".gallery").appendChild(newFigure);
-
-  // Ajout dynamique à la modale
-  const newFigureModal = document.createElement("figure");
-  newFigureModal.innerHTML = `
-    <div class="image-container">
-      <img src="${result.imageUrl}" alt="${result.title}">
-      <figcaption>${result.title}</figcaption>
-      <i id="${result.id}" class="fa-solid fa-trash-can overlay-icon"></i>
-    </div>
-  `;
-  document.querySelector(".modal-gallery").appendChild(newFigureModal);
+  getWorks();
 
   // Message de confirmation
   alert("Votre image a bien été ajoutée !");
@@ -335,10 +321,7 @@ if (response.status === 201) {
   // Réinitialisation du formulaire
   document.getElementById("picture-form").reset();
   document.getElementById("photo-container").innerHTML = ""; // Supprime l’aperçu de l’image
+  document.querySelectorAll(".picture-loaded").forEach((e) => (e.style.display = "block"));
 }
 }});
-
-addPictureForm();
-
-
 
