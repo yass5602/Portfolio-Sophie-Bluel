@@ -13,13 +13,11 @@ async function getWorks(filter) {
     const json = await response.json();
       if(filter) {
         const filtered = json.filter((data) => data.categoryId === filter);
-        console.log(filtered);
         for (let i = 0; i < filtered.length; i++) {
         setFigure(filtered[i]);
         setModalFigure(filtered[i]);
       }
     } else {
-      console.log(json);
         for (let i = 0; i < json.length; i++) {
         setFigure(json[i]);
         setModalFigure(json[i]);
@@ -276,7 +274,6 @@ document.getElementById("category").addEventListener("change", function() {
 
 titleInput.addEventListener("input", function () {
   titleValue = titleInput.value;
-  console.log("Titre actuel :", titleValue);
 });
 
 const addPictureForm = document.getElementById("picture-form");
@@ -310,7 +307,7 @@ addPictureForm.addEventListener("submit", async (event) => {
 
 if (response.status === 201) { 
   let result = await response.json();
-  console.log("Succès :", result);
+  
 
    // Mise à jour de la galerie avec les données actualisées de l'API
   getWorks();
