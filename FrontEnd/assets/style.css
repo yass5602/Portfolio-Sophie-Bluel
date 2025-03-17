@@ -467,3 +467,18 @@ margin: auto;
 #photo-container img {
 	width: 100%;
 }
+
+.success-message {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+    animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
