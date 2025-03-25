@@ -108,18 +108,19 @@ function displayAdminMode() {
   if (sessionStorage.authToken) {
     document.querySelector(".js-modal-2").style.display = "block";
     document.querySelector(".gallery").style.margin = "30px 0 0 0";
-    // Masquer la barre de filtre
-    document.querySelector(".div-container").style.display = "none";
+    document.querySelector(".div-container").style.visibility = "hidden";
+    
+    // Créer et afficher la barre d'édition
     const editBanner = document.createElement('div');
     editBanner.className = "edit";
     editBanner.innerHTML = 
     '<p><a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a></p>';
     document.body.prepend(editBanner);
+    editBanner.style.display = "flex"; // Afficher la barre en mode édition
 
     const login = document.querySelector(".login a");
     login.textContent = "logout";
     
-    // Ajout de l'événement de déconnexion
     login.addEventListener("click", function(e) {
       e.preventDefault();
       sessionStorage.removeItem("authToken");
