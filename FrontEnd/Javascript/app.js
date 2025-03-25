@@ -77,18 +77,39 @@ getCategories();
 function setFilter(data) {
     const div = document.createElement("div");
     div.className = data.id;
-    div.addEventListener("click", () => getWorks(data.id));
+    div.addEventListener("click", () => {
+        // Retirer la classe active-filter de tous les boutons
+        document.querySelectorAll('.div-container > *').forEach(button => {
+            button.classList.remove('active-filter');
+        });
+        // Ajouter la classe active-filter au bouton cliqué
+        div.classList.add('active-filter');
+        // Appeler getWorks avec le filtre
+        getWorks(data.id);
+    });
 
     div.innerHTML = `${data.name}`;
     document.querySelector(".div-container").append(div);
 } 
+
 //Active le bouton "TOUS" dans la barre de filtres
-document.querySelector(".tous").addEventListener("click", () => getWorks());
+document.querySelector(".tous").addEventListener("click", () => {
+    // Retirer la classe active-filter de tous les boutons
+    document.querySelectorAll('.div-container > *').forEach(button => {
+        button.classList.remove('active-filter');
+    });
+    // Ajouter la classe active-filter au bouton "Tous"
+    document.querySelector(".tous").classList.add('active-filter');
+    // Appeler getWorks sans filtre
+    getWorks();
+});
 
 function displayAdminMode() {
   if (sessionStorage.authToken) {
     document.querySelector(".js-modal-2").style.display = "block";
     document.querySelector(".gallery").style.margin = "30px 0 0 0";
+    // Masquer la barre de filtre
+    document.querySelector(".div-container").style.display = "none";
     const editBanner = document.createElement('div');
     editBanner.className = "edit";
     editBanner.innerHTML = 
