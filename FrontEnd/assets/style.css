@@ -161,6 +161,12 @@ li:hover {
     justify-content: space-evenly;
     margin: 35px auto;
 }
+
+/* Ajout de la marge en mode édition */
+.js-modal-2[style*="display: block"] ~ .div-container {
+    margin-bottom: 50px;
+}
+
 .div-container > * {
 	padding: 10px 20px;
 	border: 1px solid #1D6154;
@@ -209,14 +215,13 @@ li:hover {
 
 .projet-container {
     display: flex;
-    justify-content: center; /* Pour aligner verticalement les éléments */
-    gap: 10px; /* Pour ajouter un espace entre les éléments, si nécessaire */
+    justify-content: center;
+    gap: 10px;
 }
 
 .projet-container p {
-	cursor: pointer;
+    cursor: pointer;
 }
-
 
 .js-modal-close {
     border: none;
@@ -258,6 +263,9 @@ li:hover {
 }
 .modal-gallery figcaption {
     display: none;
+}
+figcaption {
+	margin-top: 5px;
 }
 .modal-wrapper hr {
 	margin-bottom: 20px;
@@ -350,19 +358,34 @@ input[type="submit"] {
     font-weight: 700;
     color: white;
     margin: 2em auto;
-    width: 180px;
     text-align: center;
     border-radius: 60px;
     transition: background-color 0.3s ease;
 }
 
-/* Style spécifique pour le bouton de connexion et le bouton envoyer */
-.login-button, #contact input[type="submit"] {
+/* Style spécifique pour le bouton de connexion */
+#login input[type="submit"] {
     background-color: #1D6154;
     cursor: pointer;
+    width: 179px;
+    height: 36px;
+    font-size: 14px;
 }
 
-.login-button:hover, #contact input[type="submit"]:hover {
+#login input[type="submit"]:hover {
+    background-color: #0E2F28;
+}
+
+/* Style spécifique pour le bouton envoyer du formulaire de contact */
+#contact input[type="submit"] {
+    background-color: #1D6154;
+    cursor: pointer;
+    width: 179px;
+    height: 36px;
+    font-size: 14px;
+}
+
+#contact input[type="submit"]:hover {
     background-color: #0E2F28;
 }
 
@@ -371,6 +394,7 @@ input[type="submit"] {
     background-color: #A7A7A7;
     cursor: not-allowed;
     transition: background-color 0.3s ease;
+    width: 237px;
 }
 
 .add-photo-form input[type="submit"].active {
@@ -382,14 +406,33 @@ input[type="submit"] {
     background-color: #0E2F28;
 }
 
-footer nav ul {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em
+footer {
+    height: 60px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    bottom: 0;
+    left: 0;
 }
+
+footer nav ul {
+    display: flex;
+    font-family: 'Work Sans';
+	font-size: medium;
+    margin: 0;
+    padding-right: 2em;
+}
+
+footer nav ul li {
+    font-family: 'Work Sans';
+	font-size:medium;
+}
+
 #contact, 
 #login {
-	width: 50%;
+	width: 30%;
 margin: auto;
 }
 #contact > *, 
@@ -575,4 +618,8 @@ margin: auto;
     cursor: pointer;
     background-color: #1D6154;
     width: 237px;
+}
+
+#login p {
+    margin-bottom: 400px;
 }
