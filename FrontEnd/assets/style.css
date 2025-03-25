@@ -231,45 +231,54 @@ li:hover {
 	cursor: pointer;
 }
 .modal-wrapper h3 {
-    font-size: 18px;
+    font-size: 25px;
     text-align: center;
     display: block;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 .modal-gallery {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-column-gap: 15px;
-    grid-row-gap: 15px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(5, 78px);
+    grid-template-rows: repeat(3, 104px);
+    grid-column-gap: 10px;
+    grid-row-gap: 30px;
+    margin-bottom: 67px;
+    padding: 0 30px;
+    justify-content: center;
+}
+.modal-gallery figure {
+    width: 78px;
+    height: 104px;
 }
 .modal-gallery img {
-    width: 100%;
-    height: 150px;
+    width: 78px;
+    height: 104px;
     object-fit: cover;
 }
 .modal-gallery figcaption {
     display: none;
 }
 .modal-wrapper hr {
-    margin-top: 30px;
-	width: 100%;
+	margin-bottom: 20px;
+    width: 100%;
+    border: none;
+    border-top: 1px solid #B3B3B3;
 }
-.modal-button-container{
+.modal-button-container {
     display: flex;
     justify-content: center;
+    margin-bottom: 25px;
 }
 .add-photo-button {
     padding: 10px 20px;
-    margin-top: 10px;
     border: 1px solid #1D6154;
     border-radius: 25px;
     font-family: 'Syne';
     color: white;
     cursor: pointer;
     background-color: #1D6154;
-    width: 250px;
+    width: 237px;
 }
 .image-container {
     position: relative;
@@ -278,18 +287,21 @@ li:hover {
 
 .image-container img {
     display: block;
+    width: 78px;
+    height: 104px;
+    object-fit: cover;
 }
 
 .image-container .overlay-icon {
     position: absolute;
-    top: 6px; /* Ajustez cette valeur pour placer l'icône en fonction de vos besoins */
-    right: 6px; /* Ajustez cette valeur pour placer l'icône en fonction de vos besoins */
-    font-size: 16px; /* Ajustez cette valeur pour la taille de l'icône */
+    top: 6px;
+    right: 6px;
+    font-size: 12px;
     cursor: pointer;
     background-color: black;
     color: white;
-    padding: 4px;
-    border-radius: 10%;
+    padding: 3px;
+    border-radius: 2px;
 }
 .form {
 	width: 50%;
@@ -344,13 +356,13 @@ input[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-/* Style spécifique pour le bouton de connexion */
-.login-button {
+/* Style spécifique pour le bouton de connexion et le bouton envoyer */
+.login-button, #contact input[type="submit"] {
     background-color: #1D6154;
     cursor: pointer;
 }
 
-.login-button:hover {
+.login-button:hover, #contact input[type="submit"]:hover {
     background-color: #0E2F28;
 }
 
@@ -452,17 +464,17 @@ margin: auto;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0,0,0.8);
+	background: rgba(0, 0, 0, 0.8);
 }
 
 .modal-wrapper {
 	overflow: auto;
-	width: 600px;
-	max-width: calc(100vh - 20px);
-	max-height: calc(100vh - 20px);
-	padding: 20px;
+	width: 630px;
+	height: 730px;
+	padding: 30px;
 	background-color: white;
 	border-radius: 10px;
+	position: relative;
 }
 
 .file-section {
@@ -531,4 +543,36 @@ margin: auto;
 
 #login p a {
     text-decoration: underline;
+}
+
+.modal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 30px 30px;
+    background-color: white;
+}
+
+.modal-footer hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #B3B3B3;
+    margin-bottom: 38px;
+}
+
+.modal-footer .modal-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-footer .add-photo-button {
+    padding: 10px 20px;
+    border: 1px solid #1D6154;
+    border-radius: 25px;
+    font-family: 'Syne';
+    color: white;
+    cursor: pointer;
+    background-color: #1D6154;
+    width: 237px;
 }
