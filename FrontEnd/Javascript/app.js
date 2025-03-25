@@ -263,6 +263,18 @@ function toggleModal() {
   } else {
     galleryModal.style.display = "block";
     addModal.style.display = "none";
+    
+    // Réinitialisation du formulaire
+    document.getElementById("picture-form").reset();
+    document.getElementById("photo-container").innerHTML = "";
+    document.querySelectorAll(".picture-loaded").forEach((e) => (e.style.display = "block"));
+    
+    // Réinitialisation des variables
+    titleValue = "";
+    file = null;
+    
+    // Retirer la classe active du bouton
+    submitButton.classList.remove("active");
   }
 }
 

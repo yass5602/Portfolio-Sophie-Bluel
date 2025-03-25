@@ -391,10 +391,16 @@ input[type="submit"] {
 
 /* Styles spécifiques au formulaire d'ajout de photo */
 .add-photo-form input[type="submit"] {
+    padding: 10px 20px;
+    border: 1px solid #1D6154;
+    border-radius: 25px;
+    font-family: 'Syne';
+    color: white;
     background-color: #A7A7A7;
     cursor: not-allowed;
     transition: background-color 0.3s ease;
     width: 237px;
+    margin: 2em auto;
 }
 
 .add-photo-form input[type="submit"].active {
@@ -475,7 +481,12 @@ margin: auto;
 	justify-content: center;
 	padding: 10px;
 }
-
+.error-message {
+	color: black;
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+}
 .edit {
 	background-color: black;
 	color: white;
@@ -548,10 +559,16 @@ margin: auto;
 }
 
 #photo-container {
-	width: 80%;
+    width: 80%;
+    max-height: 169px;
+    display: flex;
+    justify-content: center;
 }
+
 #photo-container img {
-	width: 100%;
+    width: 129px;
+    height: 169px;
+    object-fit: cover;
 }
 
 .success-message {
@@ -570,9 +587,18 @@ margin: auto;
 }
 
 .submit-button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-family: 'Syne';
+    color: white;
     background-color: #A7A7A7;
     cursor: not-allowed;
     transition: background-color 0.3s ease;
+    width: 237px;
+	height: 36px;
+    margin: 2em auto;
+    display: flex;
+    justify-content: center;
 }
 
 .submit-button.active {
