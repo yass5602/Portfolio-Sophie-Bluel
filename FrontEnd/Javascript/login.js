@@ -8,6 +8,12 @@ document
 async function handleSubmit(event) {
     event.preventDefault();
 
+    // Supprimer le message d'erreur existant s'il y en a un
+    const existingError = document.querySelector('.error-login');
+    if (existingError) {
+        existingError.remove();
+    }
+
     let user = {
         email: document.getElementById('email').value,
         password: document.getElementById('password').value
@@ -28,9 +34,9 @@ async function handleSubmit(event) {
         document.querySelector('form').prepend(errorBox);
     }
     else {
-    let result = await response.json();
-    const token = result.token;
-    sessionStorage.setItem("authToken", token);
-    window.location.href = "index.html";
+        let result = await response.json();
+        const token = result.token;
+        sessionStorage.setItem("authToken", token);
+        window.location.href = "index.html";
     }
 }

@@ -97,6 +97,13 @@ function displayAdminMode() {
 
     const login = document.querySelector(".login a");
     login.textContent = "logout";
+    
+    // Ajout de l'événement de déconnexion
+    login.addEventListener("click", function(e) {
+      e.preventDefault();
+      sessionStorage.removeItem("authToken");
+      window.location.reload();
+    });
   }
 }
 displayAdminMode();
@@ -262,7 +269,6 @@ document.getElementById("file").addEventListener("change", function (event) {
 });
 
 //Handle picture submit
-
 const titleInput = document.getElementById("title");
 let titleValue = "";
 
@@ -278,25 +284,67 @@ titleInput.addEventListener("input", function () {
 
 const addPictureForm = document.getElementById("picture-form");
 
+// Fonction pour supprimer les messages d'erreur existants
+function removeExistingErrors() {
+  const existingErrors = document.querySelectorAll('.error-message');
+  existingErrors.forEach(error => error.remove());
+}
+
 addPictureForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  removeExistingErrors();
+
   const hasImage = document.querySelector("#photo-container").firstChild;
-  if (hasImage && titleValue) {
-    //Création nouvel objet FormData
-    const formData = new FormData();
+  let hasError = false;
 
-    //Ajout du fichier au FormData
-    formData.append("image", file);
-    formData.append("title", titleValue);
-    formData.append("category", selectedValue);
+  // Validation de l'image
+  if (!hasImage) {
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "error-message";
+    errorMessage.innerHTML = "Veuillez sélectionner une image";
+    document.querySelector("#file-section").appendChild(errorMessage);
+    hasError = true;
+  }
 
-    const token = sessionStorage.authToken;
+  // Validation du titre
+  if (!titleValue.trim()) {
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "error-message";
+    errorMessage.innerHTML = "Veuillez renseigner un titre";
+    titleInput.parentNode.appendChild(errorMessage);
+    hasError = true;
+  }
 
-    if(!token) {
-      console.error("Token d'authentification manquant");
-      return;
-    }
+  // Validation de la catégorie
+  if (!selectedValue) {
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "error-message";
+    errorMessage.innerHTML = "Veuillez sélectionner une catégorie";
+    document.getElementById("category").parentNode.appendChild(errorMessage);
+    hasError = true;
+  }
 
+  // Si des erreurs ont été détectées, on arrête l'envoi
+  if (hasError) {
+    return;
+  }
+
+  //Création nouvel objet FormData
+  const formData = new FormData();
+
+  //Ajout du fichier au FormData
+  formData.append("image", file);
+  formData.append("title", titleValue);
+  formData.append("category", selectedValue);
+
+  const token = sessionStorage.authToken;
+
+  if(!token) {
+    console.error("Token d'authentification manquant");
+    return;
+  }
+
+  try {
     let response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
@@ -305,20 +353,30 @@ addPictureForm.addEventListener("submit", async (event) => {
       body: formData,
     });
 
-if (response.status === 201) { 
-  let result = await response.json();
-  
+    if (response.status === 201) { 
+      let result = await response.json();
+      
+      // Mise à jour de la galerie avec les données actualisées de l'API
+      await getWorks();
 
-   // Mise à jour de la galerie avec les données actualisées de l'API
-  getWorks();
+      // Message de confirmation
+      alert("Votre image a bien été ajoutée !");
 
-  // Message de confirmation
-  alert("Votre image a bien été ajoutée !");
-
-  // Réinitialisation du formulaire
-  document.getElementById("picture-form").reset();
-  document.getElementById("photo-container").innerHTML = ""; // Supprime l’aperçu de l’image
-  document.querySelectorAll(".picture-loaded").forEach((e) => (e.style.display = "block"));
-}
-}});
+      // Réinitialisation du formulaire
+      document.getElementById("picture-form").reset();
+      document.getElementById("photo-container").innerHTML = "";
+      document.querySelectorAll(".picture-loaded").forEach((e) => (e.style.display = "block"));
+      
+      // Retour à la galerie
+      toggleModal();
+    } else {
+      throw new Error("Erreur lors de l'ajout de l'image");
+    }
+  } catch (error) {
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "error-message";
+    errorMessage.innerHTML = "Une erreur est survenue lors de l'ajout de l'image";
+    document.querySelector(".modal-button-container").prepend(errorMessage);
+  }
+});
 
