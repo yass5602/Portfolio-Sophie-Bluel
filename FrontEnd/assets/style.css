@@ -287,7 +287,13 @@ figcaption {
     cursor: pointer;
     background-color: #1D6154;
     width: 237px;
+    transition: background-color 0.3s ease;
 }
+
+.add-photo-button:hover {
+    background-color: #0E2F28;
+}
+
 .image-container {
     position: relative;
     display: inline-block;
@@ -648,6 +654,11 @@ margin: auto;
     cursor: pointer;
     background-color: #1D6154;
     width: 237px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer .add-photo-button:hover {
+    background-color: #0E2F28;
 }
 
 .modal-footers {
