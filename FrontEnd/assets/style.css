@@ -391,16 +391,17 @@ input[type="submit"] {
 
 /* Styles spécifiques au formulaire d'ajout de photo */
 .add-photo-form input[type="submit"] {
-    padding: 10px 20px;
-    border: 1px solid #1D6154;
-    border-radius: 25px;
-    font-family: 'Syne';
-    color: white;
-    background-color: #A7A7A7;
-    cursor: not-allowed;
-    transition: background-color 0.3s ease;
-    width: 237px;
+    padding: 0;
+    border: none;
     margin: 2em auto;
+    font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    border-radius: 25px;
+    width: 237px;
+    height: 36px;
+    line-height: 36px;
 }
 
 .add-photo-form input[type="submit"].active {
@@ -587,7 +588,8 @@ margin: auto;
 }
 
 .submit-button {
-    padding: 10px 20px;
+    padding: 0;
+    border: none;
     border-radius: 25px;
     font-family: 'Syne';
     color: white;
@@ -595,10 +597,12 @@ margin: auto;
     cursor: not-allowed;
     transition: background-color 0.3s ease;
     width: 237px;
-	height: 36px;
+    height: 36px;
     margin: 2em auto;
     display: flex;
     justify-content: center;
+    align-items: center;
+    line-height: 36px;
 }
 
 .submit-button.active {
@@ -646,6 +650,30 @@ margin: auto;
     width: 237px;
 }
 
+.modal-footers {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 30px 30px;
+    background-color: white;
+}
+.modal-footers hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #B3B3B3;
+    margin-bottom: 38px;
+}
+.modal-footers .submit-button {
+    padding: 10px 20px;
+    border: 1px solid #1D6154;
+    border-radius: 25px;
+    font-family: 'Syne';
+    color: white;
+    cursor: pointer;
+    background-color: #1D6154;
+    width: 237px;
+}
 #login p {
     margin-bottom: 400px;
 }
