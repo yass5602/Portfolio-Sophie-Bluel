@@ -271,16 +271,32 @@ document.getElementById("file").addEventListener("change", function (event) {
 //Handle picture submit
 const titleInput = document.getElementById("title");
 let titleValue = "";
+const submitButton = document.querySelector(".submit-button");
 
 let selectedValue = "1";
 
 document.getElementById("category").addEventListener("change", function() {
   selectedValue = this.value;
+  checkFormValidity();
 });
 
 titleInput.addEventListener("input", function () {
   titleValue = titleInput.value;
+  checkFormValidity();
 });
+
+// Fonction pour vérifier si tous les champs sont remplis
+function checkFormValidity() {
+  const hasImage = document.querySelector("#photo-container").firstChild;
+  if (hasImage && titleValue.trim() && selectedValue) {
+    submitButton.classList.add("active");
+  } else {
+    submitButton.classList.remove("active");
+  }
+}
+
+// Vérifier l'état initial du formulaire
+checkFormValidity();
 
 const addPictureForm = document.getElementById("picture-form");
 

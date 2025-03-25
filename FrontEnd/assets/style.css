@@ -327,16 +327,30 @@ li:hover {
 .add-photo-form {
 	width: 70%;
 }
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-	cursor: pointer;
+input[type="submit"] {
+    font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    margin: 2em auto;
+    width: 180px;
+    text-align: center;
+    border-radius: 60px;
+    transition: background-color 0.3s ease;
+}
+
+/* Styles spécifiques au formulaire d'ajout de photo */
+.add-photo-form input[type="submit"] {
+    background-color: #A7A7A7;
+    cursor: not-allowed;
+}
+
+.add-photo-form input[type="submit"].active {
+    background-color: #1D6154;
+    cursor: pointer;
+}
+
+.add-photo-form input[type="submit"].active:hover {
+    background-color: #0E2F28;
 }
 
 footer nav ul {
@@ -481,4 +495,19 @@ margin: auto;
 @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
+}
+
+.submit-button {
+    background-color: #A7A7A7;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button.active {
+    background-color: #1D6154;
+    cursor: pointer;
+}
+
+.submit-button.active:hover {
+    background-color: #0E2F28;
 }
