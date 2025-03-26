@@ -254,6 +254,7 @@ backButton.addEventListener("click", toggleModal);
 function toggleModal() {
   const galleryModal = document.querySelector(".gallery-modal");
   const addModal = document.querySelector(".add-modal");
+  const submitButton = document.querySelector(".submit-button");
 
   if (
     galleryModal.style.display === "block" ||
@@ -274,8 +275,9 @@ function toggleModal() {
     titleValue = "";
     file = null;
     
-    // Retirer la classe active du bouton
+    // Retirer explicitement la classe active du bouton et forcer la vérification
     submitButton.classList.remove("active");
+    checkFormValidity();
   }
 }
 
@@ -321,13 +323,23 @@ titleInput.addEventListener("input", function () {
 
 // Fonction pour vérifier si tous les champs sont remplis
 function checkFormValidity() {
-  const hasImage = document.querySelector("#photo-container").firstChild;
-  if (hasImage && titleValue.trim() && selectedValue) {
+  const submitButton = document.querySelector(".submit-button");
+  const hasImage = document.querySelector("#photo-container img");
+  const titleValue = document.getElementById("title").value.trim();
+  const categoryValue = document.getElementById("category").value;
+
+  // Vérification que tous les champs sont remplis
+  if (hasImage && titleValue && categoryValue) {
     submitButton.classList.add("active");
   } else {
     submitButton.classList.remove("active");
   }
 }
+
+// Ajout des écouteurs d'événements pour la validation en temps réel
+document.getElementById("title").addEventListener("input", checkFormValidity);
+document.getElementById("category").addEventListener("change", checkFormValidity);
+document.getElementById("file").addEventListener("change", checkFormValidity);
 
 // Vérifier l'état initial du formulaire
 checkFormValidity();
