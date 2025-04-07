@@ -256,21 +256,21 @@ li:hover {
 .modal-gallery {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 78px);
-    grid-template-rows: repeat(3, 104px);
-    grid-column-gap: 10px;
-    grid-row-gap: 30px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
     margin-bottom: 67px;
     padding: 0 30px;
     justify-content: center;
 }
 .modal-gallery figure {
-    width: 78px;
-    height: 104px;
+    width: 100%;
+    aspect-ratio: 78/104; /* Maintient le ratio original des images */
+    position: relative;
 }
 .modal-gallery img {
-    width: 78px;
-    height: 104px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 .modal-gallery figcaption {
@@ -556,36 +556,48 @@ margin: auto;
 @media screen and (max-height: 850px) {
     .modal-wrapper {
         height: 85vh;
-        width: calc(85vh * 0.863); /* Ratio de 630/730 ≈ 0.863 */
+        width: calc(85vh * 0.863);
         max-width: 630px;
         padding: 20px;
     }
 
     .modal-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-        padding: 0 10px;
+        gap: 8px;
+        padding: 0 15px;
+        margin-bottom: 50px;
+    }
+}
+
+@media screen and (max-height: 700px) {
+    .modal-wrapper {
+        height: 80vh;
+        width: calc(80vh * 0.863);
+        max-width: 630px;
+        padding: 15px;
     }
 
-    .modal-footer {
-        position: relative;
-        margin-top: 20px;
+    .modal-gallery {
+        gap: 6px;
+        padding: 0 10px;
+        margin-bottom: 40px;
+    }
+
+    .modal-wrapper h3 {
+        font-size: 20px;
+        margin-bottom: 30px;
     }
 }
 
 @media screen and (max-width: 768px) {
     .modal-wrapper {
         width: 90vw;
-        height: calc(90vw * 1.158); /* Ratio inverse de 730/630 ≈ 1.158 */
+        height: calc(90vw * 1.158);
         max-height: 730px;
     }
 
     .modal-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-        gap: 8px;
+        gap: 6px;
+        padding: 0 10px;
     }
 }
 
